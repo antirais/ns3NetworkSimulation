@@ -4,7 +4,7 @@ NS3 network simulation in Python
 Overview
 ========
 
-This is a network simulation with NS3. There are three main segments: left office, right office and internet. 
+This is a network simulation with NS3. There are three main segments: left office, right office and internet.
 Right office has one local server, one Wifi router and multiple wifi hosts.
 Left office has in addition to right office a multiple LAN hosts connected to local Wifi router.
 Both Wifi routers are connected to internet nodes.
@@ -16,7 +16,7 @@ Setup
 
 1) install dependencies
 * pygccxml
-	
+
 To use --visualize, install the following
 * python-gnuplot
 * python-dev
@@ -38,7 +38,7 @@ To use --visualize, install the following
 
 4) copy all files under scratch
 
-5) start waf shell	
+5) start waf shell
 
 Execute these commands in ns3 folder, so that the current path is correct.
 Starts the waf shell and then python will execute correcty.
