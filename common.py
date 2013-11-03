@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import sys
+import sys, traceback
 
 class Colors(object):
 	BLACK	 = '\033[90m'
@@ -18,11 +18,12 @@ class Colors(object):
 	WARNING	 = YELLOW
 
 class LogLevel(object):
-	TRACE	 = 0
-	DEBUG	 = 1
-	INFO	 = 2
-	WARN	 = 3
-	ERROR	 = 4
+	DISABLED	= 0
+	TRACE		= 1
+	DEBUG		= 2
+	INFO		= 3
+	WARN		= 4
+	ERROR		= 5
 
 HEADER_LEN 		= 40
 FIELD_LEN 		= 30
@@ -37,7 +38,9 @@ LOG_LEVEL 		= LogLevel.WARN
 def setLogLevel(level):
 	global LOG_LEVEL
 
-	if level == "trace":
+	if level == "disabled":
+		LOG_LEVEL = LogLevel.DISABLED
+	elif level == "trace":
 		LOG_LEVEL = LogLevel.TRACE
 	elif level == "debug":
 		LOG_LEVEL = LogLevel.DEBUG
@@ -51,9 +54,13 @@ def setLogLevel(level):
 		LOG_LEVEL = LogLevel.WARN
 
 def logHeader(msg):
+	if(LOG_LEVEL == LogLevel.DISABLED):
+		return
 	print HEADER_FORMAT.format(msg, HEADER_LEN)
 
 def logData(name, value):
+	if(LOG_LEVEL == LogLevel.DISABLED):
+		return
 	print DATA_FORMAT.format(name, value, FIELD_LEN)
 
 def concatArgs(args):
@@ -63,18 +70,27 @@ def concatArgs(args):
 	return string
 
 def log(msg, *args):
+	if(LOG_LEVEL == LogLevel.DISABLED):
+		return
 	print msg + concatArgs(args)
 
 def logDebug(msg, *args):
-	if(LOG_LEVEL > LogLevel.DEBUG):
+	if(LOG_LEVEL == LogLevel.DISABLED):
 		return
-	print DEBUG_FORMAT.format(msg + concatArgs(args))
+	if(LOG_LEVEL >= LogLevel.DEBUG):
+		print DEBUG_FORMAT.format(msg + concatArgs(args))
 
 def logWarn(name, value):
-	if(LOG_LEVEL > LogLevel.WARN):
+	if(LOG_LEVEL == LogLevel.DISABLED):
 		return
-	print WARNING_FORMAT.format(name, value, FIELD_LEN)
+	if(LOG_LEVEL >= LogLevel.WARN):
+		print WARNING_FORMAT.format(name, value, FIELD_LEN)
 
 def logError(msg):
 	print ERROR.format(str(msg))
+	print traceback.print_stack()
 	sys.exit(0)
+
+def assertTrue(expected, actual):
+	if(str(expected) != str(actual)):
+		logError("Assertion failed! Expected: "+str(expected)+", but was "+str(actual))

@@ -6,6 +6,7 @@ from helpers import *
 def setUpRightOffice(cmd):
 	logHeader("Constructing right office")
 	roHosts = createRightOfficeWifiNodes(cmd)
+	logNodes("Right office wifi node count: ", roHosts)
 	roWifiPhy = setUpWifiPhy()
 	roWifiMac = setUpWifiMac(cmd.wifiMacType, Ssid(cmd.rightOfficeWifiSsid))
 	roWifiDev = setUpWifi(roWifiPhy, roWifiMac, roHosts)
@@ -26,8 +27,8 @@ def setUpRightOffice(cmd):
 	return rightOfficeGw
 
 def setUpRoApplications(roWifiInterfaces, roInfraInterfaces, roHosts, roInfra, cmd):
-	roServerNode = roHosts.Get(cmd.rightOfficeUdpEchoServer)
-	roRouterNode = roInfra.Get(cmd.rightOfficeWifiRouter)
+	roServerNode = roInfra.Get(cmd.rightOfficeUdpEchoServer)
+	roRouterNode = roHosts.Get(cmd.rightOfficeWifiRouter)
 
 	installUdpEchoServer(roRouterNode, cmd.discardPort, cmd.serverStart, cmd.stopTime)
 
@@ -36,6 +37,7 @@ def setUpRoApplications(roWifiInterfaces, roInfraInterfaces, roHosts, roInfra, c
 
 	log("Right office server node #", roServerNode.GetId())
 	logDebug("Right office server node address: ", roServerAddress)
+	assertTrue(roServerAddress, cmd.rightOfficeServerIp)
 	log("Right office router node #", roRouterNode.GetId())
 
 	cloudClient = setUpCloudUdpEchoClient(cmd)

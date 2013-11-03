@@ -67,8 +67,8 @@ To view .pcap files:
 
 To run with config:
 
-	~/ns-allinone-3.18/ns-3.18/ $ python scratch/main.py --stopTime=34 --backboneNodes=6
-	~/ns-allinone-3.18/ns-3.18/ $ rm output/*.pcap; python scratch/main.py && echo && ls -1 output | sort -V
+	~/ns-allinone-3.18/ns-3.18/ $ python scratch/main.py --stopTime=30 --logLevel=debug
+	~/ns-allinone-3.18/ns-3.18/ $ rm output/*.pcap; python scratch/main.py; echo; ls -1 output | sort -V
 
 To run visualizer, exit waf shell and run:
 

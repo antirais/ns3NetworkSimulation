@@ -6,6 +6,7 @@ from helpers import *
 def setUpLeftOffice(cmd):
 	logHeader("Constructing left office")
 	loHosts = createLeftOfficeWifiNodes(cmd)
+	logNodes("Left office wifi node count: ", loHosts)
 	loWifiPhy = setUpWifiPhy()
 	loWifiMac = setUpWifiMac(cmd.wifiMacType, Ssid(cmd.leftOfficeWifiSsid))
 	loWifiDev = setUpWifi(loWifiPhy, loWifiMac, loHosts)
@@ -41,8 +42,8 @@ def setUpLeftOffice(cmd):
 	return leftOfficeGw
 
 def setUpLoApplications(loWifiInterfaces, loInfraInterfaces, loLanInterfaces, loHosts, loInfra, loLANs, cmd):
-	loServerNode = loHosts.Get(cmd.leftOfficeUdpEchoServer)
-	loRouterNode = loInfra.Get(cmd.leftOfficeWifiRouter)
+	loServerNode = loInfra.Get(cmd.leftOfficeUdpEchoServer)
+	loRouterNode = loHosts.Get(cmd.leftOfficeWifiRouter)
 
 	installUdpEchoServer(loRouterNode, cmd.discardPort, cmd.serverStart, cmd.stopTime)
 
@@ -51,6 +52,7 @@ def setUpLoApplications(loWifiInterfaces, loInfraInterfaces, loLanInterfaces, lo
 
 	log("Left office server node #", loServerNode.GetId())
 	logDebug("Left office server node address: ", loServerAddress)
+	assertTrue(loServerAddress, cmd.leftOfficeServerIp)
 	log("Left office router node #", loRouterNode.GetId())
 
 	cloudClient = setUpCloudUdpEchoClient(cmd)
@@ -59,7 +61,7 @@ def setUpLoApplications(loWifiInterfaces, loInfraInterfaces, loLanInterfaces, lo
 	installUdpEchoWifiClients(cloudClient, loServerClient, loHosts, [cmd.leftOfficeWifiRouter], cmd)
 
 	logDebug("Number of left office LAN clients: ", loLANs.GetN())
-	installUdpEchoLanClients(cloudClient, loServerClient, loLANs, [cmd.leftOfficeWifiRouter], cmd)
+	installUdpEchoLanClients(cloudClient, loServerClient, loLANs, [], cmd)
 	return loRouterNode
 
 def doLeftOfficeTracing(wifiPhy, wifiNodes, csmaNodes, cmd):

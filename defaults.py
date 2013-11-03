@@ -6,7 +6,7 @@ class Defaults(object):
 	Default values for cmd options.
 	"""
 	printConfig					= (False,				"print configuration")
-	logLevel					= ("warn",				"set logging level: [trace, debug, info, warn, error]")
+	logLevel					= ("warn",				"set logging level: [disabled, trace, debug, info, warn, error]")
 
 	serverStart					= (0,					"time,when UDP echo servers will be online")
 	clientStart					= (0,					"time,when UDP echo clients will be online")
@@ -23,9 +23,9 @@ class Defaults(object):
 
 	networkMask					= ("255.255.255.0",		"common networking mask for all networks in simulation")
 
-	leftOfficeInfraNodes		= (2,					"left office nodes for servers and routers")
+	leftOfficeInfraNodes		= (1,					"left office nodes for servers and routers")
 	leftOfficeInfraNetwork		= ("192.168.107.0",		"left office infra network")
-	leftOfficeServerIp			= ("192.168.107.2",		"left office UDP Echo server ip")
+	leftOfficeServerIp			= ("192.168.107.1",		"left office UDP Echo server ip")
 	leftOfficeWifiNodes			= (10,					"number of Wifi nodes in left office")
 	leftOfficeWifiNetwork		= ("192.168.106.0",		"left office WiFi network")
 	leftOfficeWifiSsid			= ("lo-wifi",			"SSID for the left office WiFi")
@@ -35,7 +35,7 @@ class Defaults(object):
 	leftOfficeCsmaDataRate		= ("10Mbps",			"left office's CSMA data rate")
 	leftOfficeCsmaDelay			= ("2ms",				"left office's CSMA delay")
 	leftOfficeTracePrefix		= ("lo",				".pcap file prefix for left office devices")
-	leftOfficeUdpEchoServer		= (1,					"left office UDP Echo Server node")
+	leftOfficeUdpEchoServer		= (0,					"left office UDP Echo Server node")
 
 	cloudNodes					= (5,					"number of nodes in the cloud")
 	cloudNetwork				= ("92.168.107.0",		"cloud network address")

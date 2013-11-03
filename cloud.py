@@ -14,7 +14,7 @@ def setUpCloud(loRouter, roRouter, cmd):
 
 	# Do not change the order of nodes. It is needed to skip first to nodes,
 	# when cloud applications are installed
-	cloudNodeWithOfficeGw = addToContainer(loRouter, roRouter, cloudNodes)
+	cloudNodeWithOfficeGw = addToContainer(roRouter, loRouter, cloudNodes)
 	cloudNodesDev = installCSMA(cmd.cloudCsmaDataRate, cmd.cloudCsmaDelay, cloudNodeWithOfficeGw)
 	cloudNodesInterfaces = setUpIPAddresses(cmd.cloudNetwork, cmd.networkMask, cloudNodesDev)
 	logAssignIPs(cloudNodeWithOfficeGw, cloudNodesInterfaces)
@@ -28,6 +28,7 @@ def setUpCloudApplications(cloudNodesInterfaces, cloudNodes, cmd):
 
 	log("Cloud server node #", cloudServerNode.GetId())
 	logDebug("Cloud server node address: ", cloudNodesInterfaces.GetAddress(cmd.cloudServerNode))
+	assertTrue(cloudNodesInterfaces.GetAddress(cmd.cloudServerNode), cmd.cloudServerIp)
 
 	roServerClient = setUpOfficeServerClient(cmd.rightOfficeServerIp, cmd)
 	loServerClient = setUpOfficeServerClient(cmd.leftOfficeServerIp, cmd)
